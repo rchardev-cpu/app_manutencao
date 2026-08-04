@@ -1,158 +1,103 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Solicitação de Manutenção</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" >
+<title>Solicitação de Manutenção</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" >
 </head>
 <body>
-
 <header>
-    <h1>Sistema Escolar de Manutenção</h1>
-    <p>Informe os problemas encontrados nos ambientes da escola.</p>
+<h1>Sistema Escolar de Manutenção</h1>
+<p>Informe os problemas encontrados nos ambientes da escola.</p>
 </header>
-
 <main>
-
-    <!-- Área de cadastro -->
-    <section class="painel">
-        <h2>Nova solicitação</h2>
-
-        <form action="/cadastrar" method="post">
-
-            <div class="campo">
-                <label for="nome">Nome</label>
-                <input
-                    type="text"
-                    id="nome"
-                    name="nome"
-                    placeholder="Digite seu nome"
-                    required>
-            </div>
-
-            <div class="campo">
-                <label for="tipo_usuario">Tipo de usuário</label>
-                <select
-                    id="tipo_usuario"
-                    name="tipo_usuario"
-                    required>
-                    <option value="">Selecione</option>
-                    <option value="Aluno">Aluno</option>
-                    <option value="Professor">Professor</option>
-                </select>
-            </div>
-
-            <div class="campo">
-                <label for="sala">Sala ou laboratório</label>
-                <input
-                    type="text"
-                    id="sala"
-                    name="sala"
-                    placeholder="Exemplo: Laboratório 41"
-                    required>
-            </div>
-
-            <div class="campo">
-                <label for="equipamento">Equipamento</label>
-                <select
-                    id="equipamento"
-                    name="equipamento"
-                    required>
-                    <option value="">Selecione</option>
-                    <option value="Computador">Computador</option>
-                    <option value="Ar-condicionado">Ar-condicionado</option>
-                    <option value="Projetor">Projetor</option>
-                    <option value="Tomada">Tomada</option>
-                    <option value="Cadeira">Cadeira</option>
-                    <option value="Outro">Outro</option>
-                    <option value="Lâmpada">Lâmpada</option>
-                </select>
-            </div>
-
-            <div class="campo">
-                <label for="descricao">Descrição do problema</label>
-                <textarea
-                    id="descricao"
-                    name="descricao"
-                    rows="5"
-                    placeholder="Descreva o problema encontrado"
-                    required></textarea>
-            </div>
-
-            <button type="submit">
-                Cadastrar solicitação
-            </button>
-
-        </form>
-    </section>
-
-    <!-- Lista de solicitações -->
-    <section class="painel">
-        <h2>Solicitações cadastradas</h2>
-
-        {% if solicitacoes %}
-
-        <table>
-
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Usuário</th>
-                    <th>Sala</th>
-                    <th>Equipamento</th>
-                    <th>Descrição</th>
-                    <th>Data</th>
-                    <th>Status</th>
-                    <th>Ação</th>
-                </tr>
-            </thead>
-
-            <tbody>
-
-                {% for solicitacao in solicitacoes %}
-
-                <tr>
-                    <td>{{ solicitacao.id }}</td>
-
-                    <td>
-                        {{ solicitacao.nome }}
-                        <br>
-                        <small>{{ solicitacao.tipo_usuario }}</small>
-                    </td>
-
-                    <td>{{ solicitacao.sala }}</td>
-                    <td>{{ solicitacao.equipamento }}</td>
-                    <td>{{ solicitacao.descricao }}</td>
-                    <td>{{ solicitacao.data }}</td>
-                    <td>{{ solicitacao.status }}</td>
-
-                    <td>
-                        {% if solicitacao.status != "Concluído" %}
-                            <a href="/concluir/{{ solicitacao.id }}">
-                                Concluir
-                            </a>
-                        {% else %}
-                            Concluído
-                        {% endif %}
-                    </td>
-                </tr>
-
-                {% endfor %}
-
-            </tbody>
-
-        </table>
-
-        {% else %}
-
-        <p>Nenhuma solicitação cadastrada.</p>
-
-        {% endif %}
-
-    </section>
-
+<!-- Área de cadastro de uma nova solicitação -->
+<section class="painel">
+<h2>Nova solicitação</h2>
+<form action="/cadastrar" method="post">
+<!-- Nome do usuário -->
+<div class="campo">
+<label for="nome">Nome</label>
+<input type="text" id="nome" name="nome"
+placeholder="Digite seu nome" required >
+</div>
+<!-- Tipo de usuário -->
+<div class="campo">
+<label for="tipo_usuario">Tipo de usuário</label>
+<select id="tipo_usuario" name="tipo_usuario" required >
+<option value="">Selecione</option>
+<option value="Aluno">Aluno</option>
+<option value="Professor">Professor</option>
+</select>
+</div>
+<!-- Sala ou laboratório -->
+<div class="campo">
+<label for="sala">Sala ou laboratório</label>
+<input type="text" id="sala" name="sala"
+placeholder="Exemplo: Laboratório 41" required >
+</div>
+<!-- Equipamento com problema -->
+<div class="campo">
+<label for="equipamento">Equipamento</label>
+<select id="equipamento" name="equipamento" required >
+<option value="">Selecione</option>
+<option value="Computador">Computador</option>
+<option value="Ar-condicionado">Ar-condicionado</option>
+<option value="Projetor">Projetor</option>
+<option value="Tomada">Tomada</option>
+<option value="Cadeira">Cadeira</option>
+<option value="Outro">Outro</option>
+<option value="Lâmpada">Lâmpada</option>
+</select>
+</div>
+<!-- Descrição do problema -->
+<div class="campo">
+<label for="descricao">Descrição do problema</label>
+<textarea id="descricao" name="descricao" rows="5"
+placeholder="Descreva o problema encontrado"
+required></textarea>
+</div>
+<!-- Botão de envio -->
+<button type="submit">Cadastrar solicitação</button>
+</form>
+</section>
+<!-- Área de solicitações cadastradas -->
+<section class="painel">
+<h2>Solicitações cadastradas</h2>
+{% if solicitacoes %}
+<table>
+<thead>
+<tr>
+<th>ID</th><th>Usuário</th><th>Sala</th>
+<th>Equipamento</th><th>Descrição</th>
+<th>Data</th><th>Status</th><th>Ação</th>
+</tr>
+</thead>
+<tbody>
+{% for solicitacao in solicitacoes %}
+<tr>
+<td>{{ solicitacao.id }}</td>
+<td>{{ solicitacao.nome }}<br>
+<small>{{ solicitacao.tipo_usuario }}</small></td>
+<td>{{ solicitacao.sala }}</td>
+<td>{{ solicitacao.equipamento }}</td>
+<td>{{ solicitacao.descricao }}</td>
+<td>{{ solicitacao.data }}</td>
+<td>{{ solicitacao.status }}</td>
+<td>
+{% if solicitacao.status != "Concluído" %}
+<a href="/concluir/{{ solicitacao.id }}">Concluir</a>
+{% else %}Concluído{% endif %}
+</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+{% else %}
+<p>Nenhuma solicitação cadastrada.</p>
+{% endif %}
+</section>
 </main>
-
 </body>
 </html>
